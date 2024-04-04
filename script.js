@@ -76,8 +76,19 @@ const displayMovements = (movements) => {
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
-
 displayMovements(account1.movements);
+
+const createUsernames = (accs) => {
+  accs.forEach((acc) => {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map((name) => name[0])
+      .join('');
+  });
+};
+console.log(accounts);
+createUsernames(accounts);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -223,4 +234,78 @@ console.log(arr.at(0));
 console.log(arr[arr.length - 1]);
 console.log(arr.slice(-1)[0]);
 console.log(arr.at(-1));
+*/
+
+/*
+// !map method
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const eurToUsd = 1.1;
+
+const movementsUSD = movements.map((move, i) => {
+  return move * eurToUsd;
+});
+
+// const movementsUSD = movements.map((move, i) => move * eurToUsd);
+
+console.log(movements);
+console.log(movementsUSD);
+
+const movementsFor = [];
+for (const mov of movements) {
+  movementsFor.push(mov * eurToUsd);
+}
+console.log(movementsFor);
+
+const movementsDescription = movements.map((move, i) => {
+  if (move > 0) {
+    return `${i + 1}: You deposited ${move}`;
+  } else {
+    return `${i + 1}: You withdrawl ${Math.abs(move)}`;
+  }
+});
+console.log(movementsDescription);
+*/
+
+/*
+// !filter
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const deposits = movements.filter((mov) => {
+  return mov > 0;
+});
+console.log(movements);
+console.log(deposits);
+
+const depositsFor = [];
+for (const mov of movements) {
+  if (mov > 0) {
+    depositsFor.push(mov);
+  }
+}
+console.log(depositsFor);
+
+const withdrawals = movements.filter((move) => move < 0);
+console.log(withdrawals);
+*/
+
+//! Reduce
+/*
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const num = movements.reduce((acc, value) => {
+  return acc + value;
+}, 0);
+console.log(num);
+
+console.log(Math.max(...movements));
+console.log(Math.min(...movements));
+
+console.log('------');
+
+const max = movements.reduce((acc, cur) => {
+  if (acc > cur) return acc;
+  else return cur;
+}, 0);
+
+console.log(max);
 */
