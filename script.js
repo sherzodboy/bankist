@@ -165,13 +165,44 @@ btnTransfer.addEventListener('click', function (evt) {
     currectAccount.balance > amount &&
     currectAccount.username !== receiveAcc?.username
   ) {
-    console.log('transfered');
+    currectAccount.movements.push(-amount);
+    receiveAcc.movements.push(amount);
   }
 
-  currectAccount.movements.push(-amount);
-  receiveAcc.movements.push(amount);
+  updateUi(currectAccount);
+});
+
+btnLoan.addEventListener('click', function (evt) {
+  evt.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+  if (
+    amount > 0 &&
+    currectAccount.movements.some((mov) => mov >= amount * 0.1)
+  ) {
+    currectAccount.movements.push(amount);
+  }
 
   updateUi(currectAccount);
+});
+
+btnClose.addEventListener('click', function (evt) {
+  evt.preventDefault();
+
+  const index = accounts.findIndex(
+    (acc) => acc.username === inputCloseUsername.value
+  );
+
+  if (
+    currectAccount.username === inputCloseUsername.value &&
+    currectAccount.pin === Number(inputClosePin.value)
+  ) {
+    containerApp.style.opacity = 0;
+    accounts.splice(index, 1);
+  }
+  inputCloseUsername.value = '';
+  inputClosePin.value = '';
 });
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -450,3 +481,57 @@ console.log(deposit);
 
 // const account = accounts.find((acc) => acc.username === 'ss');
 // console.log(account);
+
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// console.log(movements.includes(3000));
+
+// console.log(movements.some((mov) => mov > 0));
+// console.log(movements.every((mov) => mov > 0));
+
+/*
+// !flat vs flatMap
+const arr = [[1, 2], 3, 4, [5, 6]];
+console.log(arr.flat());
+
+const arrDeep = [[1, 2, [3, 4, [5, 6]]], 7];
+console.log(arrDeep.flat(3));
+
+const movementsArr = accounts.map((mov) => mov.movements);
+console.log(movementsArr);
+
+const moves = movementsArr.flat();
+console.log(moves);
+
+const overAllBalance = moves.reduce((acc, cur) => acc + cur, 0);
+console.log(overAllBalance);
+
+// const overAllBalance2 = accounts
+//   .map((mov) => mov.movements)
+//   .flat()
+//   .reduce((acc, cur) => acc + cur, 0);
+const overAllBalance2 = accounts
+  .flatMap((mov) => mov.movements)
+  .reduce((acc, cur) => acc + cur, 0);
+
+console.log(overAllBalance2);
+*/
+
+// !Sorting Arrays
+/*
+const arr = ['Bob', 'Ann', 'Tom', 'Ravshan'];
+console.log(arr);
+console.log(arr.sort());
+console.log(arr);
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+console.log(movements);
+console.log(movements.sort());
+
+movements.sort((a, b) => {
+  if (a < b) return -1;
+});
+
+console.log(movements.sort((a, b) => a - b));
+*/
+
