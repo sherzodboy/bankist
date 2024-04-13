@@ -544,3 +544,85 @@ movements.sort((a, b) => {
 
 console.log(movements.sort((a, b) => a - b));
 */
+
+// Array.from
+/*
+const arr = [1, 2, 3, 4, 5];
+console.log([1, 2, 3, 4, 5]);
+console.log(new Array(1, 2, 3, 4, 5));
+
+const x = new Array(5);
+x.fill(1, 2, 4);
+console.log(x);
+
+const y = Array.from({ length: 6 }, (_, i) => i + 1);
+
+console.log(y);
+*/
+
+/*
+// 1.
+const movementsOne = accounts
+  .map((mov) => mov.movements)
+  .flat()
+  .filter((mov) => mov > 0)
+  .reduce((acc, cur) => acc + cur, 0);
+
+console.log(movementsOne);
+
+// 2
+const movementsTwo = accounts
+  .flatMap((mov) => mov.movements)
+  .filter((mov) => mov >= 1000).length;
+
+console.log(movementsTwo);
+
+// 3
+const movementsThree = accounts
+  .flatMap((mov) => mov.movements)
+  .reduce(
+    (acc, cur) => {
+      cur > 0 ? (acc.deposits += cur) : (acc.withdrawals += cur);
+      return acc;
+    },
+    { deposits: 0, withdrawals: 0 }
+  );
+
+console.log(movementsThree);
+
+//    1.THIS is a nice title => This Is a Nice Title
+//    2.this is an interesting good topic => This Is an Interesting Good Topic
+//    3.and IT is the OLD furniture => and It Is the Old Furniture
+
+const four = (title) => {
+  const exceptions = ['a', 'the', 'an', 'with', 'and', 'in', 'on'];
+
+  const convertWord = title
+    .toLowerCase()
+    .split(' ')
+    .map((word) =>
+      exceptions.includes(word) ? word : word[0].toUpperCase() + word.slice(1)
+    )
+    .join(' ');
+
+  return convertWord;
+};
+
+console.log(four('THIS is a nice title'));
+console.log(four('this is an interesting good topic'));
+console.log(four('and IT is the OLD furniture'));
+*/
+
+const dogs = [
+  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+  { weight: 8, curFood: 200, owners: ['Matilda'] },
+  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+  { weight: 32, curFood: 340, owners: ['Michael'] },
+];
+
+// 1
+dogs.forEach((dog) => {
+  dog.recFood = Math.trunc(dog.weight ** 0.75 * 28);
+});
+
+console.log(dogs);
