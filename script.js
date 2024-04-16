@@ -1,18 +1,18 @@
-'use strict';
 
+'use strict';
 // BANKIST APP
 
 // Data
 const account1 = {
   owner: 'Jonas Schmedtmann',
-  movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
+  movements: [200, 450, -400.123124, 3000.4545, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
 };
 
 const account2 = {
   owner: 'Jessica Davis',
-  movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
+  movements: [5000, 3400, -150.123123, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
 };
@@ -613,6 +613,7 @@ console.log(four('this is an interesting good topic'));
 console.log(four('and IT is the OLD furniture'));
 */
 
+/*
 const dogs = [
   { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
   { weight: 8, curFood: 200, owners: ['Matilda'] },
@@ -625,4 +626,144 @@ dogs.forEach((dog) => {
   dog.recFood = Math.trunc(dog.weight ** 0.75 * 28);
 });
 
-console.log(dogs);
+// 2
+const dogSarah = dogs.find((dog) => dog.owners.includes('Sarah'));
+console.log(dogSarah);
+console.log(
+  `Sarah's dog is eating too ${
+    dogSarah.curFood > dogSarah.recFood ? 'much' : 'little'
+  }`
+);
+
+// 3
+const ownersEatToMuch = dogs
+  .filter((dog) => dog.curFood > dog.recFood)
+  .map((dog) => dog.owners)
+  .flat();
+console.log(ownersEatToMuch);
+
+const ownersEatToLittle = dogs
+  .filter((dog) => dog.curFood < dog.recFood)
+  .flatMap((dog) => dog.owners);
+console.log(ownersEatToLittle);
+
+// 4
+console.log(`${ownersEatToMuch.join(' and ')}'s dogs are eating too much`);
+console.log(`${ownersEatToLittle.join(' and ')}'s dogs are eating too little`);
+
+// 5
+console.log(dogs.some((dog) => dog.curFood === dog.recFood));
+
+// 6
+console.log(
+  dogs.some(
+    (dog) => dog.curFood > dog.recFood * 0.9 && dog.curFood < dog.recFood * 1.1
+  )
+);
+
+// 7
+console.log(
+  dogs.filter(
+    (dog) => dog.curFood > dog.recFood * 0.9 && dog.curFood < dog.recFood * 1.1
+  )
+);
+
+// 8
+const sortedDogsArray = dogs.sort((a, b) => a.recFood - b.recFood);
+console.log(sortedDogsArray);
+*/
+
+/*
+console.log(12 === 12.0);
+console.log(0.2 + 0.1);
+console.log(0.2 + 0.1 === 0.3);
+
+console.log(Number('12'));
+console.log(+'12');
+
+console.log(Number.parseInt('123mn'));
+console.log(Number.parseInt('123.45'));
+
+console.log(Number.parseFloat('123.45mnb'));
+// console.log(Number.parseFloat('    123.45mnb    '));
+
+// isNaN
+console.log(+'123mn');
+console.log(isNaN('123'));
+
+console.log(13 / 0); // Infinity
+
+console.log(Number.isFinite('124'));
+console.log(Number.isFinite('124mn'));
+console.log(Number.isFinite(124));
+*/
+
+// Math
+/*
+console.log(Math.sqrt(64));
+console.log(Math.sqrt(25));
+
+console.log(25 ** (1 / 2));
+console.log(8 ** (1 / 3));
+
+console.log(Math.max(1, 5, 7, 10, 45, 23));
+console.log(Math.min(1, 5, 7, 10, 45, 23));
+
+console.log(Math.PI);
+
+console.log(Math.trunc(Math.random() * 5 + 1));
+
+// Rounding
+console.log(Math.trunc(1.232323231));
+
+console.log(Math.round(2.4));
+console.log(Math.round(2.6));
+
+console.log(Math.ceil(1.1));
+console.log(Math.ceil(1.9));
+
+console.log(Math.floor(1.1));
+console.log(Math.floor(1.9));
+
+// Rounding Fixed
+console.log((1.1).toFixed(5));
+console.log((1.1).toFixed(5));
+console.log(+(4.34353425345).toFixed(2));
+
+console.log((3.58355).toFixed(4));
+*/
+
+/*
+console.log(5 % 2);
+console.log(5 / 2);
+
+const number = 344_560_120;
+console.log(number);
+
+console.log(Number.MAX_SAFE_INTEGER);
+console.log(234123412349018239408123941230n);
+*/
+
+/*
+const now = new Date();
+console.log(now);
+
+console.log(new Date('2024-04-23 12:30:34'));
+console.log(new Date('April 30 2013'));
+
+console.log(new Date('2024-04-16T23:56:12'));
+console.log(new Date(2024, 3, 23, 8, 12, 30));
+
+console.log(new Date(0));
+
+const date = new Date();
+console.log(date.getFullYear());
+console.log(date.getDate());
+console.log(date.getDay());
+console.log(date.getMonth() + 1);
+console.log(date.getHours());
+console.log(date.getMinutes());
+console.log(date.getMinutes());
+console.log(date.getTime());
+console.log(new Date(1713242056900));
+*/
