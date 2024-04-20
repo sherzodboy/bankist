@@ -14,10 +14,11 @@ const account1 = {
     '2022-12-25',
     '2023-01-25',
     '2023-02-05',
-    '2023-04-10',
-    '2023-06-25',
-    '2023-07-26',
+    '2024-04-15',
+    '2024-04-18',
+    '2024-04-19',
   ],
+  lang: 'en-US',
 };
 
 const account2 = {
@@ -36,6 +37,7 @@ const account2 = {
     '2023-06-25',
     '2023-07-26',
   ],
+  lang: 'de-DE',
 };
 
 const account3 = {
@@ -54,6 +56,7 @@ const account3 = {
     '2023-06-25',
     '2023-07-26',
   ],
+  lang: 'en-NZ',
 };
 
 const account4 = {
@@ -72,6 +75,8 @@ const account4 = {
     '2023-06-25',
     '2023-07-26',
   ],
+
+  lang: 'ko-KR',
 };
 
 const accounts = [account1, account2, account3, account4];
@@ -102,6 +107,24 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+const formatMovementsDate = (date) => {
+  const calcPassedDays = (day1, day2) => {
+    return Math.abs((day1 - day2) / (1000 * 60 * 60 * 24));
+  };
+
+  const passedDays = Math.floor(calcPassedDays(new Date(), date));
+
+  if (passedDays === 0) return 'Today';
+  if (passedDays === 1) return 'Yesterday';
+  if (passedDays <= 7) return `${passedDays} days ago`;
+  else {
+    const day = `${date.getDate()}`.padStart(2, 0);
+    const month = `${date.getMonth() + 1}`.padStart(2, 0);
+    const year = date.getFullYear();
+    return `${year}/${month}/${day}`;
+  }
+};
+
 const displayMovements = (acc, sort = false) => {
   const movs = sort
     ? acc.movements.slice().sort((a, b) => a - b)
@@ -112,13 +135,8 @@ const displayMovements = (acc, sort = false) => {
   movs.forEach((move, idx) => {
     const type = move > 0 ? 'deposit' : 'withdrawal';
 
-    const now = new Date(acc.movementsDates[idx]);
-
-    const date = `${now.getDate()}`.padStart(2, 0);
-    const month = `${now.getMonth() + 1}`.padStart(2, 0);
-    const year = now.getFullYear();
-
-    const displayDate = `${year}/${month}/${date}`;
+    const date = new Date(acc.movementsDates[idx]);
+    const displayDate = formatMovementsDate(date);
 
     const html = `
       <div class="movements__row">
@@ -203,14 +221,18 @@ btnLogin.addEventListener('click', function (evt) {
     inputLoginPin.value = '';
 
     const now = new Date();
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    };
 
-    const date = `${now.getDate()}`.padStart(2, 0);
-    const month = `${now.getMonth() + 1}`.padStart(2, 0);
-    const year = now.getFullYear();
-    const hour = `${now.getHours()}`.padStart(2, 0);
-    const min = `${now.getMinutes()}`.padStart(2, 0);
-
-    labelDate.textContent = `${date}/${month}/${year}, ${hour}:${min}`;
+    labelDate.textContent = new Intl.DateTimeFormat(
+      currectAccount.lang,
+      options
+    ).format(now);
 
     updateUi(currectAccount);
   }
@@ -236,8 +258,10 @@ btnTransfer.addEventListener('click', function (evt) {
     currectAccount.movements.push(-amount);
     receiveAcc.movements.push(amount);
 
-    currectAccount.movementsDates.push(new Date());
-    receiveAcc.movementsDates.push(new Date());
+    currectAccount.movementsDates.push(new Date().toISOString());
+    receiveAcc.movementsDates.push(new Date().toISOString());
+
+    console.log(currectAccount.movementsDates);
   }
 
   updateUi(currectAccount);
@@ -248,15 +272,17 @@ btnLoan.addEventListener('click', function (evt) {
 
   const amount = Number(inputLoanAmount.value);
 
-  if (
-    amount > 0 &&
-    currectAccount.movements.some((mov) => mov >= amount * 0.1)
-  ) {
-    currectAccount.movements.push(amount);
-    currectAccount.movementsDates.push(new Date());
-  }
-  inputLoanAmount.value = '';
-  updateUi(currectAccount);
+  setTimeout(() => {
+    if (
+      amount > 0 &&
+      currectAccount.movements.some((mov) => mov >= amount * 0.1)
+    ) {
+      currectAccount.movements.push(amount);
+      currectAccount.movementsDates.push(new Date().toISOString());
+    }
+    inputLoanAmount.value = '';
+    updateUi(currectAccount);
+  }, 2500);
 });
 
 btnClose.addEventListener('click', function (evt) {
@@ -837,11 +863,47 @@ console.log(date.getTime());
 console.log(new Date(1713242056900));
 */
 
+// const calcPassedDays = (day1, day2) => {
+//   return Math.abs((day1 - day2) / (1000 * 60 * 60 * 24));
+// };
+
+// const days = sumDates(new Date(2024, 10, 29), new Date(2024, 10, 9));
+// console.log(days);
+
 /*
-const sumDates = (day1, day2) => {
-  return Math.abs((day2 - day1) / (1000 * 60 * 60 * 24));
+const num = 34567213.98;
+
+const options = {
+  style: 'currency',
+  currency: 'eur',
 };
 
-const days = sumDates(new Date(2024, 10, 29), new Date(2024, 10, 9));
-console.log(days);
+console.log(new Intl.NumberFormat('en-GB', options).format(num));
+*/
+
+/*
+const ingredinets = ['apple', 'orange'];
+
+const pizzaTimer = setTimeout(
+  (ing1, ing2) => {
+    console.log(`Here is your Pizza🍕 with ${ing1} and ${ing2}`);
+  },
+  2000,
+  ...ingredinets
+);
+
+if (ingredinets.includes('qalampir')) {
+  clearTimeout(pizzaTimer);
+}
+*/
+
+/*
+const stop = setInterval(() => {
+  const now = new Date();
+  return console.log(now);
+}, 5000);
+
+setTimeout(() => {
+  clearInterval(stop);
+}, 20000);
 */
