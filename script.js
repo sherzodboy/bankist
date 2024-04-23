@@ -200,7 +200,34 @@ const updateUi = (acc) => {
   calcDisplaySummary(acc);
 };
 
-let currectAccount;
+const startLogOutTimer = () => {
+  const tick = () => {
+    const min = String(Math.floor(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
+    // UI
+    labelTimer.textContent = `${min}:${sec}`;
+
+    // When timer is 0 log out user
+    if (time === 0) {
+      labelWelcome.textContent = 'Log in to get started';
+      containerApp.style.opacity = 0;
+      clearInterval(timer);
+    }
+
+    // decrease time
+    time--;
+  };
+  // Set time
+  let time = 120;
+
+  // Every second
+  tick();
+  const timer = setInterval(tick, 1000);
+
+  return timer;
+};
+
+let currectAccount, timer;
 
 btnLogin.addEventListener('click', function (evt) {
   evt.preventDefault();
@@ -227,12 +254,16 @@ btnLogin.addEventListener('click', function (evt) {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
+      weekday: 'long',
     };
 
     labelDate.textContent = new Intl.DateTimeFormat(
       currectAccount.lang,
       options
     ).format(now);
+
+    clearInterval(timer);
+    timer = startLogOutTimer();
 
     updateUi(currectAccount);
   }
@@ -260,9 +291,10 @@ btnTransfer.addEventListener('click', function (evt) {
 
     currectAccount.movementsDates.push(new Date().toISOString());
     receiveAcc.movementsDates.push(new Date().toISOString());
-
-    console.log(currectAccount.movementsDates);
   }
+
+  clearInterval(timer);
+  timer = startLogOutTimer();
 
   updateUi(currectAccount);
 });
@@ -281,6 +313,10 @@ btnLoan.addEventListener('click', function (evt) {
       currectAccount.movementsDates.push(new Date().toISOString());
     }
     inputLoanAmount.value = '';
+
+    clearInterval(timer);
+    timer = startLogOutTimer();
+
     updateUi(currectAccount);
   }, 2500);
 });
